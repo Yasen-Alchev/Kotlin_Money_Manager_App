@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">NextTry</string>
+    <string name="item_name_text">Item Name</string>
+    <string name="item_price_text">Item Price</string>
+    <string name="item_output_text">Product Name: %s\nProduct price: %f</string>
+</resources>
