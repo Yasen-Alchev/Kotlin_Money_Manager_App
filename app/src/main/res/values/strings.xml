@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">NextTry</string>
+    <string name="app_name">MoneyManager</string>
     <string name="item_name_text">Item Name</string>
     <string name="item_price_text">Item Price</string>
     <string name="item_output_text">Product Name: %s\nProduct price: %f</string>
+    <string name="item_count_text">1</string>
+    <string name="add_item">Add Item</string>
+    <string name="open_excel">Open Excel</string>
+    <string name="products">TextView</string>
+    <string name="item_count">ItemCount:</string>
 </resources>

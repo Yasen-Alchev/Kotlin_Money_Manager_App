@@ -20,7 +20,7 @@ import java.util.Locale
 
 class ExcelFunctions(private val context: Context) {
 
-    private fun Sheet.createItem(item: Item){
+    private fun Sheet.createItem(item: Item, count: Int){
         // Evaluate all formulas in the sheet, to update their value
         val formulaEvaluator = workbook.creationHelper.createFormulaEvaluator()
 
@@ -36,7 +36,7 @@ class ExcelFunctions(private val context: Context) {
             }
             this.createRow(2).apply {
                 createCell(0).setCellValue(getTime())
-                createCell(1).setCellValue("1".toDouble())
+                createCell(1).setCellValue(count.toDouble())
             }
             this.createRow(3).apply {
                 createCell(0).setCellValue("Total")
@@ -61,7 +61,7 @@ class ExcelFunctions(private val context: Context) {
                     {
                         createCell(i)
                         if(i == containsItemName){
-                            getCell(i).setCellValue("1".toDouble())
+                            getCell(i).setCellValue(count.toDouble())
                         }
                     }
                     getCell(0).setCellValue(getTime())
@@ -81,7 +81,7 @@ class ExcelFunctions(private val context: Context) {
                     //crete new row to the now free total's old row and set the item count to 1
                     this.createRow(lastRowIndex).apply {
                         createCell(0).setCellValue(getTime())
-                        createCell(cellIndex).setCellValue("1".toDouble())
+                        createCell(cellIndex).setCellValue(count.toDouble())
                     }
 
                     // now the formulas are different because the columns and rows of total's row changed
@@ -124,7 +124,7 @@ class ExcelFunctions(private val context: Context) {
                     //calculate the SUM
                     this.getRow(lastRow).createCell(cellIndex + 1).cellFormula = "SUM(" + this.getRow(lastRow).getCell(1).address.toString() + ":" + this.getRow(lastRow).getCell(cellIndex).address.toString() + ")"
                     //set the cell to 1
-                    this.getRow(row).createCell(cellIndex).setCellValue("1".toDouble())
+                    this.getRow(row).createCell(cellIndex).setCellValue(count.toDouble())
                 }
             }
         }
@@ -162,7 +162,7 @@ class ExcelFunctions(private val context: Context) {
         //return LocalDateTime.now().toLocalDate().toString()
     }
 
-    fun writeToFile(filename: String, item: Item)
+    fun writeToFile(filename: String, item: Item, count: Int)
     {
         if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
             Log.w("FileUtils", "Storage not available or read only")
@@ -180,7 +180,7 @@ class ExcelFunctions(private val context: Context) {
 
             //create the new item
             if(cell == -1) {
-                sheet.createItem(item)
+                sheet.createItem(item, count)
             }
             else //add +1 to the current item count
             {
@@ -193,13 +193,13 @@ class ExcelFunctions(private val context: Context) {
                             {
                                 getCell(cell).setCellValue("1".toDouble())
                             }else{
-                                getCell(cell).setCellValue((getCell(cell).toString().toDouble() + "1".toDouble()).toString().toDouble())
+                                getCell(cell).setCellValue((getCell(cell).toString().toDouble() + count.toDouble()).toString().toDouble())
                             }
                         }
                     }
                     else
                     {
-                        sheet.createItem(item)
+                        sheet.createItem(item, count)
                     }
                 }
                 else //the item price is not the same. The item is different
@@ -220,7 +220,7 @@ class ExcelFunctions(private val context: Context) {
             file.createNewFile()
 
             xlWb.setSheetName(0, "Razhodi")
-            xlWs.createItem(item)
+            xlWs.createItem(item, count)
 
             val outputStream = FileOutputStream(file)
 
