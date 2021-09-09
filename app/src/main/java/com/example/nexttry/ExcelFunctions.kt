@@ -14,10 +14,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Locale
 
-
-
-
-
 class ExcelFunctions(private val context: Context) {
 
     private fun Sheet.createItem(item: Item, count: Int){
